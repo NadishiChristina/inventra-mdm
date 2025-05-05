@@ -162,3 +162,64 @@ p{
 	color: #fff;
 	margin-left:auto; margin-right:auto;
 }
+
+/*Form elements*/
+.form-wrapper {
+    width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-element {
+    margin-bottom: 20px;
+}
+
+.form-element label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    display: block;
+    color: #1E293B;
+}
+
+.form-element input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+button, #submitbtn, .btn{
+	
+	background-color: #154b77;
+	color: #fcfafa;
+	padding:8px 20px;
+	text-align:center;
+	text-decoration:none;
+	display:inline-block;
+	font-size:12px;
+	margin: 4px 2px;
+	-webkit-transition-duration: 0.5s;
+	transition-duration: 0.5s;
+	cursor:pointer;
+	border: 2px solid #4774b8;
+	border-radius:20px;
+}
+
+button:hover, #submitbtn:hover, .btn:hover{
+	background-color:white;
+	color:rgb(4, 10, 54);
+}
