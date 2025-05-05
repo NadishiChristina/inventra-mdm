@@ -1,0 +1,164 @@
+/*External Stylesheet for homteq*/
+
+/*Importing Google Fonts*/
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+
+body,html 
+{
+	padding-top:65px;
+	background: url("bg.jpg") no-repeat center center fixed;
+	background-position: top;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;	
+}
+
+p{
+	margin: 0;
+}
+
+#container
+{
+	margin: 0 auto;
+	width: 100%; 
+	font-family: 'Raleway', sans-serif;
+	border-style: None;
+    border-color: #fbfbfb;	
+} 
+
+#navbar{	
+	top:0;
+	left:0;
+	width:100%;
+	position:fixed;
+	z-index: 100;
+}
+
+#header
+{
+	background: #F8F8F8;
+	padding: 10px 20px;
+}	
+
+#header h1
+{
+	margin: 0;
+	background:#071d68;
+	color:	#ffffff;
+	font-family: Fjalla One;
+	font-size: 45;
+	text-align: left;
+	width: 150;
+	height:50;
+	padding: 10px;
+	margin-left:130px;
+}
+
+#header h2
+{
+	margin: 0;
+	color: #3d5c5c;
+	font-size: 15;
+	text-align: left;
+	padding-left:130px;
+}
+
+#header h3
+{
+	clear:both;
+	margin: 0;
+	color:#7996aa;
+	font-size: 14;
+	text-align: right;
+}
+
+#navigation 
+{
+	float: left;
+	width: 100%;
+	background-color: #020133;
+}
+
+#navigation ul
+{
+	
+	display:flex;
+	justify-content:space-between; 
+	flex-direction:row;
+	margin: 10px;
+	padding-left: 130px; padding-right:130px;
+}
+
+#navigation ul li
+{
+	list-style-type: none;
+	display: inline;
+}
+
+#navigation li a
+{
+	/*display: block;*/
+	/*float: left;*/
+	padding: 10px 25px;
+	color: #FFF;
+	text-decoration: none;
+	border-right: 0px solid#fff;
+}
+
+#navigation li a:hover 
+{ 
+	background: #f3f2f2; 
+	color: #080808
+}
+
+#content
+{
+	margin:0;
+	width:80%; min-height:100%;
+	clear: left;
+	padding: 20px;
+	padding-top:50px;
+	margin-left:auto;
+	margin-right:auto;
+	background: #f8f8f8ee; 
+}
+
+#content h4
+{
+	color:#000;
+	font-size: 32;
+	margin: 2rem 0 2rem 2rem;
+	font-family: 'Montserrat', sans-serif;
+}
+
+#content h5
+{
+	color:#194a8d;
+	font-size: 20;
+	margin: 0 0 .5em;
+	padding-left: 15px;
+}
+
+
+#content a{
+	color:#f0f2f3;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+#content a:hover{
+	color:#021a41a9;
+}
+
+#footer
+{
+	z-index:10;
+	width:80%;
+	background:#4d4d4d;
+	text-align: center;
+	padding: 5px;
+	padding-left:20px; padding-right:20px;
+	color: #fff;
+	margin-left:auto; margin-right:auto;
+}
