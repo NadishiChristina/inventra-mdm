@@ -9,7 +9,7 @@ echo "<h4>".$pagename."</h4>";
 
 // Check if user is logged in
 if(isset($_SESSION['id'])) {
-    echo "<p id='thankyou-message'>Thank you, ".$_SESSION['name']."</p>";
+    echo "<p id='thankyou-message'>Thank you, ".$_SESSION['name']." 🙂</p>";
     
     // Store name temporarily for goodbye message
     $userName = $_SESSION['name'];
