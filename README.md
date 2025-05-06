@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**inventra-mdm** is a PHP-based **Master Data Management System** with user authentication and role-based access. It enables admins to perform CRUD (Create, Read, Update, Delete) operations for managing **brands**, **categories**, and **items** within a centralized interface.
+**inventra-mdm** is a PHP-based **Master Data Management System** with user authentication. It enables users to perform CRUD (Create, Read, Update, Delete) operations for managing **brands**, **categories**, and **items** within a centralized interface. 
 
 ---
 
@@ -80,10 +80,6 @@ Make sure your local server (XAMPP) is running and the project is placed inside 
 | **Main Dashboard** | Navigate to manage Brands, Categories, and Items | `/dashboard.php`     |
 
 
-
-> Role-based access to ensure that logged-in users can only manage their own created records.
-
-
 ### Brand Management
 
 | Action           | Description             | Route                   |
@@ -113,7 +109,13 @@ Make sure your local server (XAMPP) is running and the project is placed inside 
 | **Update Item** | Edit existing item details                                     | `/item_update.php`     |
 | **Delete Item** | Remove an item from the system                                 | `/item_delete.php`     |
 
-> item.php - Includes **search**, **filter**, and **export file** functionality.
+### Additonal Features
+- Role-based access to ensure that logged-in users can only manage their own created records.
+- item.php - Includes **search**, **filter**, and **export file** functionality.
+- `/detectlogin.php`- Displays the username of the logged-in user across pages during the session
+
+Demo video Link : https://drive.google.com/file/d/1qf9y8uSZ6Zu1kqTUjLxKFJgneRItoNeg/view?usp=sharing
+
 
 
 
