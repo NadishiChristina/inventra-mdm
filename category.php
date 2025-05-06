@@ -8,6 +8,9 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+// Get user ID from session
+$user_id = $_SESSION['id'];
+
 $pagename = "Category Management";
 echo "<link rel=stylesheet type=text/css href=mystylesheet.css>"; 
 echo "<title>".$pagename."</title>";
@@ -27,9 +30,16 @@ if (isset($_GET['id'])) {
     $editMode = true;
     $categoryId = $_GET['id'];
     
-    // Fetch category details
-    $SQL = "SELECT * FROM master_category WHERE id = '".$categoryId."'";
+    // Fetch category details and verify it belongs to the current user
+    $SQL = "SELECT * FROM master_category WHERE id = '".$categoryId."' AND user_id = '".$user_id."'";
     $exeSQL = mysqli_query($conn, $SQL) or die(mysqli_error($conn));
+    
+    if (mysqli_num_rows($exeSQL) == 0) {
+        // Category not found or doesn't belong to user
+        echo "<script>alert('Category not found!'); window.location.href='category.php';</script>";
+        exit();
+    }
+    
     $category = mysqli_fetch_array($exeSQL);
     
     if ($category) {
@@ -70,15 +80,15 @@ $itemsPerPage = 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($page - 1) * $itemsPerPage;
 
-// Get total number of categories
-$countSQL = "SELECT COUNT(*) as total FROM master_category";
+// Get total number of categories belonging to the user
+$countSQL = "SELECT COUNT(*) as total FROM master_category WHERE user_id = '".$user_id."'";
 $countResult = mysqli_query($conn, $countSQL);
 $count = mysqli_fetch_assoc($countResult);
 $totalCategories = $count['total'];
 $totalPages = ceil($totalCategories / $itemsPerPage);
 
-// Fetch categories with pagination
-$SQL = "SELECT * FROM master_category ORDER BY id DESC LIMIT $offset, $itemsPerPage";
+// Fetch categories with pagination, filtered by user_id
+$SQL = "SELECT * FROM master_category WHERE user_id = '".$user_id."' ORDER BY id DESC LIMIT $offset, $itemsPerPage";
 $exeSQL = mysqli_query($conn, $SQL) or die(mysqli_error($conn));
 
 // Display categories

@@ -8,6 +8,9 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+// Get user ID for role-based access
+$user_id = $_SESSION['id'];
+
 $item_id = mysqli_real_escape_string($conn, trim($_POST['item_id']));
 $code = mysqli_real_escape_string($conn, trim($_POST['code']));
 $name = mysqli_real_escape_string($conn, trim($_POST['name']));
@@ -16,6 +19,27 @@ $category_id = mysqli_real_escape_string($conn, trim($_POST['category_id']));
 $status = mysqli_real_escape_string($conn, trim($_POST['status']));
 $current_attachment = isset($_POST['current_attachment']) ? $_POST['current_attachment'] : "";
 $updated_at = date('Y-m-d H:i:s');
+
+// Verify item belongs to current user
+$checkItemSQL = "SELECT * FROM master_item WHERE id = '$item_id' AND user_id = '$user_id'";
+$checkItemResult = mysqli_query($conn, $checkItemSQL);
+
+if (mysqli_num_rows($checkItemResult) == 0) {
+    echo "<script>alert('Item not found or you don\'t have permission to update it.'); window.location.href='dashboard.php';</script>";
+    exit();
+}
+
+// Verify that brand and category belong to current user
+$checkBrandSQL = "SELECT * FROM master_brand WHERE id = '$brand_id' AND user_id = '$user_id'";
+$checkBrandResult = mysqli_query($conn, $checkBrandSQL);
+
+$checkCategorySQL = "SELECT * FROM master_category WHERE id = '$category_id' AND user_id = '$user_id'";
+$checkCategoryResult = mysqli_query($conn, $checkCategorySQL);
+
+if (mysqli_num_rows($checkBrandResult) == 0 || mysqli_num_rows($checkCategoryResult) == 0) {
+    echo "<script>alert('Invalid brand or category selection.'); window.location.href='item.php?id=$item_id';</script>";
+    exit();
+}
 
 // Handle file upload
 $attachment = $current_attachment; 
@@ -63,8 +87,8 @@ if(isset($_FILES['attachment']) && $_FILES['attachment']['size'] > 0) {
     }
 }
 
-// Check if code already exists for other items
-$checkSQL = "SELECT * FROM master_item WHERE code = '$code' AND id != '$item_id'";
+// Check if code already exists for other items owned by the current user
+$checkSQL = "SELECT * FROM master_item WHERE code = '$code' AND id != '$item_id' AND user_id = '$user_id'";
 $checkResult = mysqli_query($conn, $checkSQL);
 
 if (mysqli_num_rows($checkResult) > 0) {
@@ -77,11 +101,11 @@ if (mysqli_num_rows($checkResult) > 0) {
 $SQL = "UPDATE master_item 
         SET code = '$code', name = '$name', brand_id = '$brand_id', category_id = '$category_id', 
         attachment = '$attachment', status = '$status', updated_at = '$updated_at' 
-        WHERE id = '$item_id'";
+        WHERE id = '$item_id' AND user_id = '$user_id'";
 
 if (mysqli_query($conn, $SQL)) {
     // Success, redirect to dashboard
-    echo "<script>alert('Item updated successfully!'); window.location.href='dashboard.php';</script>";
+    echo "<script>alert('Item updated successfully!'); window.location.href='item.php';</script>";
 } else {
     // Error
     echo "<script>alert('Error: " . mysqli_error($conn) . "'); window.location.href='item.php?id=$item_id';</script>";

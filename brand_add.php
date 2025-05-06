@@ -8,14 +8,16 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+// Get user ID from session
+$user_id = $_SESSION['id'];
 $code = mysqli_real_escape_string($conn, trim($_POST['code']));
 $name = mysqli_real_escape_string($conn, trim($_POST['name']));
 $status = 'Active'; // Default for new brands
 $created_at = date('Y-m-d H:i:s');
 $updated_at = date('Y-m-d H:i:s');
 
-// Check if code or name already exists
-$checkSQL = "SELECT * FROM master_brand WHERE code = '$code' OR name = '$name'";
+// Check if code or name already exists for this user
+$checkSQL = "SELECT * FROM master_brand WHERE (code = '$code' OR name = '$name') AND user_id = '$user_id'";
 $checkResult = mysqli_query($conn, $checkSQL);
 
 if (mysqli_num_rows($checkResult) > 0) {
@@ -24,9 +26,9 @@ if (mysqli_num_rows($checkResult) > 0) {
     exit();
 }
 
-// Insert new brand
-$SQL = "INSERT INTO master_brand (code, name, status, created_at, updated_at) 
-        VALUES ('$code', '$name', '$status', '$created_at', '$updated_at')";
+// Insert new brand with user_id
+$SQL = "INSERT INTO master_brand (user_id, code, name, status, created_at, updated_at) 
+        VALUES ('$user_id', '$code', '$name', '$status', '$created_at', '$updated_at')";
 
 if (mysqli_query($conn, $SQL)) {
     // Success, redirect to brand page

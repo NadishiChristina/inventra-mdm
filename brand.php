@@ -16,6 +16,9 @@ include("headfile.html");
 include("detectlogin.php");
 echo "<h4>".$pagename."</h4>";
 
+// Get user ID from session
+$user_id = $_SESSION['id'];
+
 // Check if we're editing a brand
 $editMode = false;
 $brandId = "";
@@ -27,9 +30,16 @@ if (isset($_GET['id'])) {
     $editMode = true;
     $brandId = $_GET['id'];
     
-    // Fetch brand details
-    $SQL = "SELECT * FROM master_brand WHERE id = '".$brandId."'";
+    // Fetch brand details and verify it belongs to the current user
+    $SQL = "SELECT * FROM master_brand WHERE id = '".$brandId."' AND user_id = '".$user_id."'";
     $exeSQL = mysqli_query($conn, $SQL) or die(mysqli_error($conn));
+    
+    if (mysqli_num_rows($exeSQL) == 0) {
+        // Brand not found or doesn't belong to user
+        echo "<script>alert('Brand not found!'); window.location.href='brand.php';</script>";
+        exit();
+    }
+    
     $brand = mysqli_fetch_array($exeSQL);
     
     if ($brand) {
@@ -71,15 +81,15 @@ $itemsPerPage = 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($page - 1) * $itemsPerPage;
 
-// Get total number of brands
-$countSQL = "SELECT COUNT(*) as total FROM master_brand";
+// Get total number of brands belonging to the user
+$countSQL = "SELECT COUNT(*) as total FROM master_brand WHERE user_id = '".$user_id."'";
 $countResult = mysqli_query($conn, $countSQL);
 $count = mysqli_fetch_assoc($countResult);
 $totalBrands = $count['total'];
 $totalPages = ceil($totalBrands / $itemsPerPage);
 
-// Fetch brands with pagination
-$SQL = "SELECT * FROM master_brand ORDER BY id DESC LIMIT $offset, $itemsPerPage";
+// Fetch brands with pagination, filtered by user_id
+$SQL = "SELECT * FROM master_brand WHERE user_id = '".$user_id."' ORDER BY id DESC LIMIT $offset, $itemsPerPage";
 $exeSQL = mysqli_query($conn, $SQL) or die(mysqli_error($conn));
 
 // Display brands

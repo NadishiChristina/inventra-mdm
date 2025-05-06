@@ -8,6 +8,9 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+// Get user ID for role-based access
+$user_id = $_SESSION['id'];
+
 $pagename = "Item Management"; 
 echo "<link rel=stylesheet type=text/css href=mystylesheet.css>"; 
 echo "<title>".$pagename."</title>"; 
@@ -30,9 +33,16 @@ if (isset($_GET['id'])) {
     $editMode = true;
     $itemId = $_GET['id'];
     
-    // Fetch item details
-    $SQL = "SELECT * FROM master_item WHERE id = '".$itemId."'";
+    // Fetch item details - ensure item belongs to current user
+    $SQL = "SELECT * FROM master_item WHERE id = '".$itemId."' AND user_id = '".$user_id."'";
     $exeSQL = mysqli_query($conn, $SQL) or die(mysqli_error($conn));
+    
+    // If no matching item found (wrong ID or not owned by user), redirect
+    if(mysqli_num_rows($exeSQL) == 0) {
+        echo "<script>alert('Item not found or you don\'t have permission to edit it.'); window.location.href='dashboard.php';</script>";
+        exit();
+    }
+    
     $item = mysqli_fetch_array($exeSQL);
     
     if ($item) {
@@ -45,12 +55,12 @@ if (isset($_GET['id'])) {
     }
 }
 
-// Get all active brands
-$brandsSQL = "SELECT * FROM master_brand WHERE status = 'Active' ORDER BY name";
+// Get all active brands that belong to the current user
+$brandsSQL = "SELECT * FROM master_brand WHERE status = 'Active' AND user_id = '".$user_id."' ORDER BY name";
 $brandsResult = mysqli_query($conn, $brandsSQL) or die(mysqli_error($conn));
 
-// Get all active categories
-$categoriesSQL = "SELECT * FROM master_category WHERE status = 'Active' ORDER BY name";
+// Get all active categories that belong to the current user
+$categoriesSQL = "SELECT * FROM master_category WHERE status = 'Active' AND user_id = '".$user_id."' ORDER BY name";
 $categoriesResult = mysqli_query($conn, $categoriesSQL) or die(mysqli_error($conn));
 
 // Display form for adding/editing item
@@ -60,7 +70,7 @@ if ($editMode) {
     echo "<input type='hidden' name='item_id' value='".$itemId."'>";
 }
 echo "<div class='element'><label for='code'>Code:</label>";
-echo "<input type='text' name='code' id='code' value='".$itemCode."' required></div>";
+echo "<input type='text' name='code' id='code' class='form-input' value='".$itemCode."' required></div>";
 
 echo "<div class='element'><label for='name'>Name:</label>";
 echo "<input type='text' name='name' id='name' value='".$itemName."' required></div>";
@@ -109,7 +119,7 @@ echo "</div>";
 echo "<div class='container search-export-wrapper' style='margin-bottom: 20px;'>";
 
 // SEARCH & FILTER FORM
-echo "<form method='get' action='item.php' class='search-filter-form' style='display: flex; gap: 15px; flex-wrap: wrap; align-items: center;'>";
+echo "<form method='get' action='item.php' class='search-filter-form' style='display: flex; gap: 10px; flex-wrap: wrap; align-items: center;'>";
 
 echo "<input type='text' name='search' placeholder='Search by code or name' value='".(isset($_GET['search']) ? htmlspecialchars($_GET['search']) : "")."' style='padding: 8px; width: 200px;'>";
 
@@ -119,9 +129,10 @@ echo "<option value='Active' ".(isset($_GET['status_filter']) && $_GET['status_f
 echo "<option value='Inactive' ".(isset($_GET['status_filter']) && $_GET['status_filter'] == 'Inactive' ? 'selected' : '').">Inactive</option>";
 echo "</select>";
 
+echo "<div style='display: flex; gap: 1px;'>";
 echo "<input type='submit' value='Search' class='btn' style='padding: 8px 16px;'>";
-
 echo "<a href='item.php' class='btn' style='padding: 8px 16px; background-color: #f3f4f6; color: #333; text-decoration: none;'>Reset</a>";
+echo "</div>";
 
 echo "</form>";
 
@@ -153,7 +164,8 @@ $itemsPerPage = 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($page - 1) * $itemsPerPage;
 
-$whereClause = "1=1";
+// Add user_id filter to base WHERE clause for role-based access
+$whereClause = "i.user_id = '$user_id'";
 
 // Apply search filter
 if (isset($_GET['search']) && !empty($_GET['search'])) {
@@ -249,4 +261,3 @@ echo "</div>";
 include("footfile.html"); // include footer layout
 echo "</body>";
 ?>
-
