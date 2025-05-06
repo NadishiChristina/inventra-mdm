@@ -441,6 +441,20 @@ p {
     color: white;
 }
 
+.search-export-wrapper {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+	margin-top: 20px;;
+}
+
+.search-filter-form input[type="text"],
+.search-filter-form select,
+.export-form select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
 
 

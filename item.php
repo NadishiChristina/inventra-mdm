@@ -8,9 +8,9 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-$pagename = "Item Management"; // Create and populate a variable called $pagename
-echo "<link rel=stylesheet type=text/css href=mystylesheet.css>"; // Call in stylesheet
-echo "<title>".$pagename."</title>"; // display name of the page as window title
+$pagename = "Item Management"; 
+echo "<link rel=stylesheet type=text/css href=mystylesheet.css>"; 
+echo "<title>".$pagename."</title>"; 
 echo "<body>";
 include("headfile.html"); // include header layout file
 include("detectlogin.php");
@@ -106,23 +106,80 @@ echo "</div>";
 echo "</form>";
 echo "</div>";
 
+echo "<div class='container search-export-wrapper' style='margin-bottom: 20px;'>";
+
+// SEARCH & FILTER FORM
+echo "<form method='get' action='item.php' class='search-filter-form' style='display: flex; gap: 15px; flex-wrap: wrap; align-items: center;'>";
+
+echo "<input type='text' name='search' placeholder='Search by code or name' value='".(isset($_GET['search']) ? htmlspecialchars($_GET['search']) : "")."' style='padding: 8px; width: 200px;'>";
+
+echo "<select name='status_filter' style='padding: 8px;'>";
+echo "<option value=''>All Statuses</option>";
+echo "<option value='Active' ".(isset($_GET['status_filter']) && $_GET['status_filter'] == 'Active' ? 'selected' : '').">Active</option>";
+echo "<option value='Inactive' ".(isset($_GET['status_filter']) && $_GET['status_filter'] == 'Inactive' ? 'selected' : '').">Inactive</option>";
+echo "</select>";
+
+echo "<input type='submit' value='Search' class='btn' style='padding: 8px 16px;'>";
+
+echo "<a href='item.php' class='btn' style='padding: 8px 16px; background-color: #f3f4f6; color: #333; text-decoration: none;'>Reset</a>";
+
+echo "</form>";
+
+// EXPORT FORM
+echo "<form method='post' action='export_items.php' class='export-form' style='display: flex; gap: 10px; align-items: center; margin-top: 15px;'>";
+
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    echo "<input type='hidden' name='search' value='".htmlspecialchars($_GET['search'])."'>";
+}
+if (isset($_GET['status_filter']) && !empty($_GET['status_filter'])) {
+    echo "<input type='hidden' name='status_filter' value='".htmlspecialchars($_GET['status_filter'])."'>";
+}
+
+echo "<label for='export_format'>Export as:</label>";
+echo "<select name='export_format' id='export_format' style='padding: 8px;'>";
+echo "<option value='csv'>CSV</option>";
+echo "<option value='excel'>Excel</option>";
+echo "<option value='pdf'>PDF</option>";
+echo "</select>";
+
+echo "<input type='submit' value='Export' class='btn' style='padding: 8px 16px;'>";
+
+echo "</form>";
+echo "</div>"; 
+
+
 // Pagination settings
 $itemsPerPage = 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($page - 1) * $itemsPerPage;
 
-// Get total number of items
-$countSQL = "SELECT COUNT(*) as total FROM master_item";
+$whereClause = "1=1";
+
+// Apply search filter
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    $search = mysqli_real_escape_string($conn, $_GET['search']);
+    $whereClause .= " AND (i.code LIKE '%$search%' OR i.name LIKE '%$search%')";
+}
+
+// Apply status filter
+if (isset($_GET['status_filter']) && !empty($_GET['status_filter'])) {
+    $statusFilter = mysqli_real_escape_string($conn, $_GET['status_filter']);
+    $whereClause .= " AND i.status = '$statusFilter'";
+}
+
+// Get total number of items with applied filters
+$countSQL = "SELECT COUNT(*) as total FROM master_item i WHERE $whereClause";
 $countResult = mysqli_query($conn, $countSQL);
 $count = mysqli_fetch_assoc($countResult);
 $totalItems = $count['total'];
 $totalPages = ceil($totalItems / $itemsPerPage);
 
-// Fetch items with brand and category names
+// Fetch items with brand and category names and apply filters
 $SQL = "SELECT i.*, b.name as brand_name, c.name as category_name 
         FROM master_item i
         LEFT JOIN master_brand b ON i.brand_id = b.id
         LEFT JOIN master_category c ON i.category_id = c.id
+        WHERE $whereClause
         ORDER BY i.id DESC LIMIT $offset, $itemsPerPage";
 $exeSQL = mysqli_query($conn, $SQL) or die(mysqli_error($conn));
 
@@ -168,19 +225,28 @@ if (mysqli_num_rows($exeSQL) > 0) {
     }
     echo "</table>";
     
-    // Pagination links
+    // Pagination links with search parameters
     echo "<div class='pagination'>";
+    $paginationParams = "";
+    if (isset($_GET['search'])) {
+        $paginationParams .= "&search=" . urlencode($_GET['search']);
+    }
+    if (isset($_GET['status_filter'])) {
+        $paginationParams .= "&status_filter=" . urlencode($_GET['status_filter']);
+    }
+    
     for ($i = 1; $i <= $totalPages; $i++) {
-        echo "<a id='number' href='item.php?page=$i' ".($page == $i ? "class='active'" : "").">$i</a> ";
+        echo "<a id='number' href='item.php?page=$i$paginationParams' ".($page == $i ? "class='active'" : "").">$i</a> ";
     }
     echo "</div>";
 } else {
-    echo "<p>No items found. Add your first item using the form above.</p>";
+    echo "<p>No items found. Add your first item using the form above or try a different search.</p>";
 }
 
 echo "<a href='dashboard.php' class='btn'>Back to Dashboard</a>";
 echo "</div>";
 
-include("footfile.html"); // include head layout
+include("footfile.html"); // include footer layout
 echo "</body>";
 ?>
+
