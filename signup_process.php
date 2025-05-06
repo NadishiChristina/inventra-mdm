@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 include('db.php');
 mysqli_report(MYSQLI_REPORT_OFF);
 
@@ -20,8 +21,7 @@ $password2=trim($_POST['r_password2']);
 $reg = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/";
 
 //check if any of the variables that captured the posted values are empty
-if (empty($name) or empty($email)or 
-empty($password1)or empty($password2))
+if (empty($name) or empty($email)or empty($password1)or empty($password2))
 {
 echo "<p><b>Sign-up failed!</b></p>";
 echo "<br><p>Your signup form is incomplete and all fields are mandatory";
