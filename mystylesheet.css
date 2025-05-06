@@ -1,11 +1,10 @@
-/*External Stylesheet for homteq*/
+/*External Stylesheet for MDM*/
 
 /*Importing Google Fonts*/
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 @import url('https://fonts.googleapis.com/css?family=Fjalla+One');
 
-body,html 
-{
+body,html {
 	padding-top:65px;
 	background: url("bg.jpg") no-repeat center center fixed;
 	background-position: top;
@@ -14,12 +13,11 @@ body,html
 	background-size: cover;	
 }
 
-p{
+p {
 	margin: 0;
 }
 
-#container
-{
+#container {
 	margin: 0 auto;
 	width: 100%; 
 	font-family: 'Raleway', sans-serif;
@@ -27,22 +25,12 @@ p{
     border-color: #fbfbfb;	
 } 
 
-#navbar{	
-	top:0;
-	left:0;
-	width:100%;
-	position:fixed;
-	z-index: 100;
-}
-
-#header
-{
+#header {
 	background: #F8F8F8;
 	padding: 10px 20px;
 }	
 
-#header h1
-{
+#header h1 {
 	margin: 0;
 	background:#071d68;
 	color:	#ffffff;
@@ -55,8 +43,7 @@ p{
 	margin-left:130px;
 }
 
-#header h2
-{
+#header h2 {
 	margin: 0;
 	color: #3d5c5c;
 	font-size: 15;
@@ -64,8 +51,7 @@ p{
 	padding-left:130px;
 }
 
-#header h3
-{
+#header h3 {
 	clear:both;
 	margin: 0;
 	color:#7996aa;
@@ -73,16 +59,21 @@ p{
 	text-align: right;
 }
 
-#navigation 
-{
-	float: left;
-	width: 100%;
-	background-color: #020133;
+#navbar {	
+	top:0;
+	left:0;
+	width:100%;
+	position:fixed;
+	z-index: 100;
 }
 
-#navigation ul
-{
-	
+#navigation {
+	float: left;
+	width: 100%;
+	background-color: #010114;
+}
+
+#navigation ul {	
 	display:flex;
 	justify-content:space-between; 
 	flex-direction:row;
@@ -90,30 +81,51 @@ p{
 	padding-left: 130px; padding-right:130px;
 }
 
-#navigation ul li
-{
+#navigation ul li {
 	list-style-type: none;
 	display: inline;
 }
 
-#navigation li a
-{
-	/*display: block;*/
-	/*float: left;*/
+#navigation li a {
 	padding: 10px 25px;
 	color: #FFF;
 	text-decoration: none;
 	border-right: 0px solid#fff;
 }
 
-#navigation li a:hover 
-{ 
-	background: #f3f2f2; 
-	color: #080808
+#navigation li a:hover { 
+	background: #2e2e2e; 
+	color: #fff
 }
 
-#content
-{
+#indextable p {
+	padding-left: 15px;
+	padding-top: 7px;
+}
+
+#indextable {
+	margin-left: 2rem;
+}
+
+#indextable img {
+	transition: 0.2s ease-in-out;
+	border-radius: 15px;
+}
+
+#indextable img:hover {
+	transform:scale(1.1);
+}
+
+#indextable h5:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#indextable td {
+	padding-bottom: 3rem;
+}
+
+#content {
 	margin:0;
 	width:80%; min-height:100%;
 	clear: left;
@@ -124,35 +136,27 @@ p{
 	background: #f8f8f8ee; 
 }
 
-#content h4
-{
+#content h4 {
 	color:#000;
 	font-size: 32;
 	margin: 2rem 0 2rem 2rem;
 	font-family: 'Montserrat', sans-serif;
 }
 
-#content h5
-{
+#content h5 {
 	color:#194a8d;
 	font-size: 20;
 	margin: 0 0 .5em;
 	padding-left: 15px;
 }
 
-
-#content a{
-	color:#f0f2f3;
+#content a {
+	color:#f9fbfc;
 	font-weight:bold;
 	text-decoration:none;
 }
 
-#content a:hover{
-	color:#021a41a9;
-}
-
-#footer
-{
+#footer {
 	z-index:10;
 	width:80%;
 	background:#4d4d4d;
@@ -163,7 +167,210 @@ p{
 	margin-left:auto; margin-right:auto;
 }
 
-/*Form elements*/
+table, th, td {
+	border-collapse:collapse;
+	
+	border:1px solid #000;
+}
+
+th {
+	padding:10px;
+}
+
+td {
+	padding:10px;
+	text-align:left;
+	color:#000000;
+}
+
+button, #submitbtn, .btn {	
+	background-color: #154b77;
+	color: #fcfafa;
+	padding:8px 20px;
+	text-align:center;
+	text-decoration:none;
+	display:inline-block;
+	font-size:12px;
+	margin: 4px 2px;
+	-webkit-transition-duration: 0.5s;
+	transition-duration: 0.5s;
+	cursor:pointer;
+	border: 2px solid #4774b8;
+	border-radius:20px;
+}
+
+button:hover, #submitbtn:hover, .btn:hover {
+	background-color:white;
+	color:rgb(4, 10, 54);
+}
+
+#content a:hover {
+	color:#021a41a9;
+}
+
+.element {
+	width:35%;
+	display:flex;
+	justify-content:space-between;	
+}
+
+.formStyle .element {
+	width: 98%;
+}
+
+.formStyle form {
+	width: 38rem;
+	padding: 20px;
+	margin: 0 auto;
+	border-radius:20px;
+	background-color: #fff;
+	-webkit-box-shadow: -6px 5px 39px -20px rgba(0,0,0,0.75);
+	-moz-box-shadow: -6px 5px 39px -20px rgba(0,0,0,0.75);
+	box-shadow: -6px 5px 39px -20px rgba(0,0,0,0.75);
+}
+
+.formStyle.loginStyle form {
+	width:30rem;
+}
+
+/* Form Elements */
+.formStyle .element {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.formStyle label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.formStyle input[type="text"],
+.formStyle select {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* Buttons */
+#submitbtn, .btn {
+    background-color: #072658;
+    color: white;
+    padding: 10px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-right: 10px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#submitbtn:hover, .btn:hover {
+    background-color: #eceff3;
+	border-color: #072658;
+}
+
+/* Table Styling */
+.container table {
+    width: 95%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container th, .container td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.container th {
+    background-color: #021a41a9;
+    color: white;
+}
+
+.container tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.container tr:hover {
+    background-color: #eef3ff;
+}
+
+/* Pagination */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination #number{
+	margin: 0 5px;
+    text-decoration: none;
+    color: #010814;
+    padding: 6px 12px;
+    border: 1px solid #021a41a9;
+    border-radius: 4px;
+}
+
+.pagination a.active {
+    background-color: #0b447eee;
+    color: white;
+    font-weight: bold;
+}
+
+.dashboard-menu {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 40px auto;
+    flex-wrap: wrap;
+}
+
+.dashboard-button {
+    background-color: #071d68;
+    color: white;
+    text-align: center;
+    padding: 30px 40px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    width: 200px;
+    transition: background 0.3s ease, transform 0.2s;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-button i {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.dashboard-button:hover {
+    background-color: #eff1f5;
+    transform: scale(1.05);
+}
+
+.welcome-message {
+    text-align: center;
+    margin-top: 30px;
+    color: #1E293B;
+    font-family: 'Inter', sans-serif;
+}
+
+.welcome-message h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.welcome-message p {
+    font-size: 18px;
+    color: #6B7280;
+}
+
 .form-wrapper {
     width: 400px;
     margin: 50px auto;
@@ -202,24 +409,38 @@ p{
     justify-content: space-between;
 }
 
-button, #submitbtn, .btn{
-	
-	background-color: #154b77;
-	color: #fcfafa;
-	padding:8px 20px;
-	text-align:center;
-	text-decoration:none;
-	display:inline-block;
-	font-size:12px;
-	margin: 4px 2px;
-	-webkit-transition-duration: 0.5s;
-	transition-duration: 0.5s;
-	cursor:pointer;
-	border: 2px solid #4774b8;
-	border-radius:20px;
+ /* Styling for paragraph tags */
+p {
+    font-size: 18px; /* Increase font size */
+    line-height: 1.6; /* Improve readability with a better line height */
+    color: #333; /* Darker text color for better contrast */
+    margin-bottom: 20px; /* Add some spacing between paragraphs */
+    text-align: center; /* Center-align text for a cleaner look */
 }
 
-button:hover, #submitbtn:hover, .btn:hover{
-	background-color:white;
-	color:rgb(4, 10, 54);
+/* Specific styles for the thank-you and logout messages */
+#thankyou-message, #logout-message {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2c3e50; /* Darker color for emphasis */
+    margin-bottom: 30px;
 }
+
+#redirect a {
+    color: #3498db; /* Make the login link stand out with a bright blue color */
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 15px;
+    background-color: #ffffffea;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#redirect a:hover {
+    background-color: #3498db;
+    color: white;
+}
+
+
+
+
